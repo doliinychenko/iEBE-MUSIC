@@ -14,9 +14,11 @@ initial_dict = {
 # 3DMCGlauber model
 mcglauber_dict = {
     'database_name': "self",     # self: generate initial condition on the fly
-    'Projectile':  "Pb",         # projectile nucleus name
-    'Target'    :  "Pb",         # target nucleus name
-    'roots'     :   17.3,        # collision energy (GeV)
+    'Projectile':  "Au",         # projectile nucleus name
+    'Target'    :  "Au",         # target nucleus name
+    'roots'     :   7.7,         # collision energy (GeV)
+    'b_min'     :   0.,          # minimum impact parameter (fm)
+    'b_max'     :   3.4,         # maximum impact parameter (fm)
     'seed'      :   -1,          # random seed (-1: system)
     'baryon_junctions': 1,       # 0: baryon number assumed to be at string end
                                  # 1: baryon number transported assuming baryon
@@ -60,7 +62,7 @@ music_dict = {
     'Include_Bulk_Visc_Yes_1_No_0': 0,     # include bulk viscous effect
     'Include_second_order_terms': 1,       # include second order non-linear coupling terms
     'Include_vorticity_terms': 0,          # include vorticity coupling terms
-    'Include_Rhob_Yes_1_No_0': 0,
+    'Include_Rhob_Yes_1_No_0': 1,
     'turn_on_baryon_diffusion': 0,
     'kappa_coefficient': 0.4,
 
