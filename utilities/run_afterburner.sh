@@ -3,18 +3,17 @@
 mkdir -p SMASH_results && rm -fr SMASH_results/*
 
 SMASH_ROOT=~/smash-devel/
-SMASH_ANALYSIS_ROOT=~/smash-analysis
 UTILITIES=~/iEBE-MUSIC/utilities
 ISS_ROOT=./SMASH_0/iSS
 
 # provide SMASH particle table to iSS
-#${SMASH_ROOT}/build/smash -x -i ${UTILITIES}/config.yaml > ${ISS_ROOT}/iSS_tables/pdg.dat
-#python ${UTILITIES}/prepare_SMASH_particles_for_iSS.py -i ${ISS_ROOT}/iSS_tables/
-#
+${SMASH_ROOT}/build/smash -x -i ${UTILITIES}/config.yaml > ${ISS_ROOT}/iSS_tables/pdg.dat
+python ${UTILITIES}/prepare_SMASH_particles_for_iSS.py -i ${ISS_ROOT}/iSS_tables/
+
 cd ${ISS_ROOT}
-#cp ../hydro_event/surface*.dat results/surface.dat
-#cp ../hydro_event/music_input results/music_input
-#./iSS.e
+cp ../hydro_event/surface*.dat results/surface.dat
+cp ../hydro_event/music_input results/music_input
+./iSS.e
 mkdir -p SMASH_input && rm -rf SMASH_input/*
 mkdir -p SMASH_results && rm -r SMASH_results/*
 python ${UTILITIES}/convert_iSS_output_to_SMASH_input.py -i OSCAR.DAT -o SMASH_input/
@@ -28,6 +27,6 @@ do
     	                  -c "Modi: {List: {File_Prefix: sampled_particles}}" \
     		          -c "Modi: {List: {Shift_Id: ${i}}}" > SMASH_results/${i}/out.txt &
 done
-${SMASH_ANALYSIS_ROOT}/test/energy_scan/mult_and_spectra.py \
-    --input_files SMASH_results/*/particle_binary.bin \
+python ~/smash-analysis/test/energy_scan/mult_and_spectra.py \
+    --input_files SMASH_results/*/particles_binary.bin \
     --output_files yspectra.txt mtspectra.txt ptspectra.txt v2.txt meanmt0_midrapidity.txt meanpt_midrapidity.txt midrapidity_yield.txt total_multiplicity.txt
