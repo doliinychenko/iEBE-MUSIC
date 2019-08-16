@@ -11,6 +11,7 @@ ${SMASH_ROOT}/build/smash -x -i ${UTILITIES}/config.yaml > ${ISS_ROOT}/iSS_table
 python ${UTILITIES}/prepare_SMASH_particles_for_iSS.py -i ${ISS_ROOT}/iSS_tables/
 
 cd ${ISS_ROOT}
+mkdir -p results
 cp ../hydro_event/surface*.dat results/surface.dat
 cp ../hydro_event/music_input results/music_input
 ./iSS.e
@@ -27,6 +28,7 @@ do
     	                  -c "Modi: {List: {File_Prefix: sampled_particles}}" \
     		          -c "Modi: {List: {Shift_Id: ${i}}}" > SMASH_results/${i}/out.txt &
 done
+wait
 python ~/smash-analysis/test/energy_scan/mult_and_spectra.py \
     --input_files SMASH_results/*/particles_binary.bin \
     --output_files yspectra.txt mtspectra.txt ptspectra.txt v2.txt meanmt0_midrapidity.txt meanpt_midrapidity.txt midrapidity_yield.txt total_multiplicity.txt
