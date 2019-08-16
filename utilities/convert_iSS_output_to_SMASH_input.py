@@ -8,7 +8,7 @@ def charge(pdg):
     if (s == '22'): return 0
     # nuclei
     if  (len(s) == 10 and s[0:2] == '10'):
-        return int(s[-7:-5]) * antiparticle_sign 
+        return int(s[-7:-4]) * antiparticle_sign
     quarks = ('000'+ s)[-4:-1]
     # lepton
     if quarks[0] == '0' and quarks[1] == '0':
