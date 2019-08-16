@@ -29,7 +29,7 @@ def convert_iSS_output_to_SMASH_input(iSS_file, SMASH_folder):
     print "# Reading particles from ", input_file
     out_fname = "/sampled_particles"
     out_file_counter = 0
-    events_per_file = 100
+    events_per_file = 20
     output_file = open(SMASH_folder + out_fname + str(out_file_counter), 'w')
     output_file.write("#!OSCAR2013 particle_lists t x y z mass p0 px py pz pdg ID charge\n"
                       "# Units: fm fm fm fm GeV GeV GeV GeV GeV none none e\n"

@@ -19,13 +19,15 @@ if __name__ == "__main__":
     outfile = open(output_file_name, 'w')
     while (True):
         line = infile.readline()
-        if (not line): break
+        if (not line or line.strip() == ""): break
         line_split = line.split()
         pdg = line_split[0]
         ndecays = int(line_split[-1])
         mass = float(line_split[2])
         for _ in xrange(ndecays): infile.readline()
-        if (mass > 0.1 and mass < 2.5):
+        # Do not sample photons, too heavy particles, and nuclei
+        if (mass > 0.1 and mass < 2.3 and len(pdg) < 10):
             outfile.write(pdg + '\n')
     infile.close()
     outfile.close()
+    print "Created ", iss_tables_folder, " from ", iss_tables_folder
