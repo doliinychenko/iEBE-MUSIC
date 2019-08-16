@@ -79,8 +79,9 @@ iss_dict = {
     'include_deltaf_shear': 1,      # include delta f contribution from shear
     'include_deltaf_bulk': 0,       # include delta f contribution from bulk
     'include_deltaf_diffusion': 0,  # include delta f contribution from diffusion
-    'sample_upto_desired_particle_number': 1,  # 1: flag to run sampling until desired
+    'sample_upto_desired_particle_number': 0,  # 1: flag to run sampling until desired
                                                # particle numbers is reached
+    'number_of_repeated_sampling' : 2000,      # number of events
     'number_of_particles_needed': 100000,      # number of hadrons to sample
     'local_charge_conservation': 0,  # flag to impose local charge conservation
 }
