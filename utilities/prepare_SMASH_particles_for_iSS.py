@@ -26,10 +26,10 @@ if __name__ == "__main__":
         mass = float(line_split[2])
         for _ in xrange(ndecays): infile.readline()
         # Do not sample photons, too heavy particles, and d'
-        if (mass > 0.1 and mass < 2.3 and pdg != '1000010021'):
+        if (mass > 0.1 and mass < 2.3 and pdg  != '1000010021'):
             outfile.write(pdg + '\n')
             # anti-baryons
-            quarks = ('000'+ pdg)[-4:-1]
+            quarks = ('000'+ pdg.strip('-'))[-4:-1]
             if '0' not in quarks:
                 outfile.write('-' + pdg + '\n')
     infile.close()
