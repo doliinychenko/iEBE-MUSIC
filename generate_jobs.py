@@ -101,7 +101,7 @@ def generate_nersc_mpi_job_script(folder_name, n_nodes, n_threads,
 #SBATCH -L SCRATCH
 #SBATCH -C haswell
 #SBATCH --mail-type=ALL
-#SBATCH --mail-user=doliinychnko@lbl.govom
+#SBATCH --mail-user=doliinychenko@lbl.gov
 
 export OMP_PROC_BIND=true
 export OMP_PLACES=threads
