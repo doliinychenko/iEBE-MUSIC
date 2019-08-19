@@ -89,7 +89,7 @@ def generate_nersc_mpi_job_script(folder_name, n_nodes, n_threads,
                                   n_jobs_per_node):
     """This function generates job script for NERSC"""
     working_folder = folder_name
-    walltime = '10:00:00'
+    walltime = '01:00:00'
 
     script = open(path.join(working_folder, "submit_MPI_jobs.pbs"), "w")
     script.write(
@@ -210,42 +210,37 @@ def generate_script_afterburner(folder_name):
     script = open(path.join(working_folder, "run_afterburner.sh"), "w")
     script.write(
         """#!/usr/bin/env bash
+SMASH_ROOT=~/smash-devel/
+UTILITIES=~/iEBE-MUSIC/utilities
+ISS_ROOT=./SMASH_0/iSS
 
-unalias ls
+mv UrQMDev_0 SMASH_0
+# provide SMASH particle table to iSS
+${SMASH_ROOT}/build/smash -x -i ${UTILITIES}/config.yaml > ${ISS_ROOT}/iSS_tables/pdg.dat
+python ${UTILITIES}/prepare_SMASH_particles_for_iSS.py -i ${ISS_ROOT}/iSS_tables/
 
-SubEventId=$1
-
-(
-cd UrQMDev_$SubEventId
-
-mkdir -p UrQMD_results
-rm -fr UrQMD_results/*
-
-for iev in `ls hydro_event | grep "surface"`
+cd ${ISS_ROOT}
+mkdir -p results
+cp ../hydro_event/surface*.dat results/surface.dat
+cp ../hydro_event/music_input results/music_input
+./iSS.e
+mkdir -p SMASH_input && rm -rf SMASH_input/*
+mkdir -p SMASH_results && rm -r SMASH_results/*
+python ${UTILITIES}/convert_iSS_output_to_SMASH_input.py -i OSCAR.DAT -o SMASH_input/
+npr=`nproc`
+for (( i=1; i<=$npr; i++ ))
 do
-    cd iSS
-    mkdir -p results
-    rm -fr results/*
-    mv ../hydro_event/$iev results/surface.dat
-    mv ../hydro_event/music_input results/music_input
-    ./iSS.e
-    # turn on global momentum conservation
-    #./correct_momentum_conservation.py OSCAR.DAT
-    #mv OSCAR_w_GMC.DAT OSCAR.DAT
-    cd ../osc2u
-    ./osc2u.e < ../iSS/OSCAR.DAT
-    mv fort.14 ../urqmd/OSCAR.input
-    cd ../urqmd
-    ./runqmd.sh
-    mv particle_list.dat ../UrQMD_results/particle_list.dat
-    rm -fr ../iSS/OSCAR.DAT
-    rm -fr OSCAR.input
-    cd ..
-    ../hadronic_afterburner_toolkit/convert_to_binary.e UrQMD_results/particle_list.dat
-    rm -fr UrQMD_results/particle_list.dat
+    mkdir -p SMASH_results/${i}
+    ${SMASH_ROOT}/build/smash -i ${UTILITIES}/config.yaml \
+    	                  -o SMASH_results/${i} \
+    	                  -c "Modi: {List: {File_Directory: SMASH_input/}}" \
+    	                  -c "Modi: {List: {File_Prefix: sampled_particles}}" \
+    		          -c "Modi: {List: {Shift_Id: ${i}}}" > SMASH_results/${i}/out.txt &
 done
-
-rm -fr hydro_event
+wait
+python ~/smash-analysis/test/energy_scan/mult_and_spectra.py \
+    --input_files SMASH_results/*/particles_binary.bin \
+    --output_files yspectra.txt mtspectra.txt ptspectra.txt v2.txt meanmt0_midrapidity.txt meanpt_midrapidity.txt midrapidity_yield.txt total_multiplicity.txt
 )
 """)
     script.close()

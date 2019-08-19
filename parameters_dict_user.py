@@ -24,7 +24,7 @@ mcglauber_dict = {
                                  # 1: baryon number transported assuming baryon
                                  # junctions (at smaller x)
                                  # see arXiv:nucl-th/9602027
-    'lambdaB': 0.4,              # parameter the controls the strength of
+    'lambdaB': 0.2,             # parameter the controls the strength of
                                  # the baryon junction stopping
     'evolve_QCD_string_mode': 2,        # string evolution mode
                                         # 1: deceleration with fixed rapidity loss (m/sigma = 1 fm, dtau = 0.5 fm)
@@ -44,13 +44,13 @@ music_dict = {
     'boost_invariant':  0,  # whether the simulation is boost-invariant
     'Eta_grid_size': 10.0,  # spatial rapidity range 
                             # [-Eta_grid_size/2, Eta_grid_size/2 - delta_eta]
-    'Grid_size_in_eta': 64,  # number of the grid points in spatial rapidity direction
+    'Grid_size_in_eta': 32,  # number of the grid points in spatial rapidity direction
     'X_grid_size_in_fm': 24.0,  # spatial range along x direction in the transverse plane 
                                 # [-X_grid_size_in_fm/2, X_grid_size_in_fm/2]
     'Y_grid_size_in_fm': 24.0,  # spatial range along x direction in the transverse plane 
                                 # [-X_grid_size_in_fm/2, X_grid_size_in_fm/2]
-    'Grid_size_in_x': 256,      # number of the grid points in x direction
-    'Grid_size_in_y': 256,      # number of the grid points in y direction
+    'Grid_size_in_x': 128,      # number of the grid points in x direction
+    'Grid_size_in_y': 128,      # number of the grid points in y direction
     'EOS_to_use': 14,           # type of the equation of state
                                 # 14: neos_BQS lattice EoS at finite mu_B
                                 # 17: BEST lattice EoS at finite mu_B

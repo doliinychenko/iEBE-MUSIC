@@ -1,11 +1,18 @@
-#!/bin/bash
-
-mkdir -p SMASH_results && rm -fr SMASH_results/*
+#!/bin/bash -l
+#SBATCH --qos=debug
+#SBATCH -N 1
+#SBATCH -J afterburner
+#SBATCH -t 30:00
+#SBATCH -L SCRATCH
+#SBATCH -C haswell
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=doliinychenko@lbl.gov
 
 SMASH_ROOT=~/smash-devel/
 UTILITIES=~/iEBE-MUSIC/utilities
 ISS_ROOT=./SMASH_0/iSS
 
+mv UrQMDev_0 SMASH_0
 # provide SMASH particle table to iSS
 ${SMASH_ROOT}/build/smash -x -i ${UTILITIES}/config.yaml > ${ISS_ROOT}/iSS_tables/pdg.dat
 python ${UTILITIES}/prepare_SMASH_particles_for_iSS.py -i ${ISS_ROOT}/iSS_tables/
